@@ -207,3 +207,16 @@ encodeURI: 转义整个 URI
 
 webpack 命令 Module build failed(from ./node_modules/babel-loader/lib/index.js)错误问题解决方案：
 控制台输入 npm install @babel/core @babel/preset-env 命令
+
+用 Custom Hook  提取并复用组件代码。（useMount  useDebounce） 像函数一样提取组件逻辑
+注意：use 开头的 hook。不管字自定义的 hook 还是官方自带的 hook 不可以在普通函数中运行。只能组件中/其他hook 中运行
+
+debounce：处理快速的事件。监听鼠标/改变窗口/keyboard
+
+1. undefined --> 设置定时器-->拿到了定时器的句柄
+2. 定时器句柄 --> clearTimeout --> 赋值为自己的 timeout
+3. timeout --> clearTimeout  -->  赋值为自己的 timeout
+
+连续执行，最后都这会剩一个 timeout
+
+最后一个 log() 等 5s 之后 才会执行

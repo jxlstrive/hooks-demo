@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from "react"
 
-export const SearchPanel = ({users, param, setParam}) => {
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  title: string;
+  organization: string;
+}
+
+// 希望对函数每一个形参都要规定类型
+interface SearchPanelProps {
+  users: User[],  // users 代表 User 类型的数组
+  param: {
+    name: string;
+    personId: string;
+  },
+  setParam: (param: SearchPanelProps['param']) => void;   //  void 代表什么都不返回
+}
+
+
+export const SearchPanel = ({users, param, setParam}: SearchPanelProps) => {
   
   return <form>
     <div>

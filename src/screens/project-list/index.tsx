@@ -6,15 +6,17 @@ import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { cleanObject, useDebounce, useMount } from 'utils/index'
 
+// 使用 JS，大部分的错误都是在 runtime（运行时） 的时候发现的
+// 希望在静态代码中，就能找到其中的一些错误 -> 强类型 typeScript
 const apiUrl = process.env.REACT_APP_API_URL
 
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState([])
   const [param, setParam] = useState({
     name: '',
-    person: ''
+    personId: ''
   })
-  const debounceParam = useDebounce(param, 2000)
+  const debounceParam = useDebounce(param, 200)
   const [list, setList] = useState([])
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export const ProjectListScreen = () => {
   })
  
   return <div>
-    <SearchPanel param={param} setParam={setParam} users={users} />
+    <SearchPanel users={users} param={param} setParam={setParam} />
     <List users={users} list={list} />
   </div>
 }

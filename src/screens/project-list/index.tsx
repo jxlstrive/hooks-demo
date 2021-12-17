@@ -19,6 +19,16 @@ export const ProjectListScreen = () => {
   const debounceParam = useDebounce(param, 200)
   const [list, setList] = useState([])
 
+  // 声明一个变量为 unknown 类型，可以给它赋任何值，但是不可以把 unknown 赋给任何值，也不能从 unknown 身上读取任何的方法
+  // let value:unknown
+  // value = undefined
+  // value = []
+
+  // let valueNumber = 1
+  // valueNumber = value
+
+  // value.func
+
   useEffect(() => {
     // fetch 返回一个 promise；then 里边是一个异步函数
     fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {

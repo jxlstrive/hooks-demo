@@ -25,7 +25,7 @@
 
 #### _TypeScript vs JavaScript_
 
-`TypeScript` 是 "强类型" 版的 JavaScript，代码中定义变量(包括普通变量、函数、组件、hook 等)的时候，TypeScript 允许我们在定义的同时指定其类型，这样使用者在使用不当的时候就会被及时报错提醒
+**定义**: `TypeScript` 是 "强类型" 版的 JavaScript，代码中定义变量(包括普通变量、函数、组件、hook 等)的时候，TypeScript 允许我们在定义的同时指定其类型，这样使用者在使用不当的时候就会被及时报错提醒
 
 ```jsx
 interface SearchPanelProps {
@@ -40,11 +40,18 @@ interface SearchPanelProps {
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {};
 ```
 
-经常用 TypeScript 的感受：比起原来的 JavaScript，TypeScript 带来了完全不一样的开发体验，bug 大大减少了，编辑器提示快了，代码更易读了， 开发速度快了(看似多写代码，其实由于前面几点节省了大量开发时间)，上手了就回不去了
+_经常用 TypeScript 的感受_：比起原来的 JavaScript，TypeScript 带来了完全不一样的开发体验，bug 大大减少了，编辑器提示快了，代码更易读了， 开发速度快了(看似多写代码，其实由于前面几点节省了大量开发时间)，上手了就回不去了
 
-#### TypeScript 的类型
+### **_Typescript_ 的类型:**
 
-使用到了 8 种类型： number, string, boolean, 函数, array, any, void, object
+
+使用到了 8 种类型：
+
+| number | string | boolean |
+| :----- | :----: | ------: |
+| 函数   | array  |     any |
+| void   | object |         |
+
 
 在平常使用中会接触到的大部分的类型，下面我们挨个梳理一遍：
 

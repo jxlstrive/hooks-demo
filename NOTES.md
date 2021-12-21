@@ -294,7 +294,7 @@ d.ts 是给 js 打补丁用的 一般开源库会用到\*
 **定义**：Typescript 是 “强类型” 版的 javascript。当我们在代码中定义变量（包括普通变量、函数、组件、hook 等）的时候，Typescript 允许我们在定义的同时指定其类型，这样使用在在使用不当的时候就会被及时报错提醒
 
 _开发体验：_
-<u>bug 大大减少了，编辑器提示快了，代码更易读了，开发速度快了 s</u>
+<u>bug 大大减少了，编辑器提示快了，代码更易读了，开发速度快了</u>
 
 ### **_Typescript_ 的类型:**
 
@@ -385,7 +385,7 @@ looselyTyped.ifItExists();
 const [users, setUser] = useState([]);
 ```
 
-1. tuple 是 “数量固定，类型可以各异” 版的数组 \
+1. tuple 是 “数量固定，类型可以各异” 版的数组
 2. 在 React 中有可能使用 tuple 的地方就是 custom hook 的返回值，注意 isHappy -> tomlsHappy 以及其他名字的变化，这里使用 tuple 的好处就显现出来了：便于使用者重命名
 
 ```js

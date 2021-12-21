@@ -16,6 +16,7 @@ export const ProjectListScreen = () => {
     name: '',
     personId: ''
   })
+  // 使用 泛型后 debounceParam 和 param 类型保持一致
   const debounceParam = useDebounce(param, 200)
   const [list, setList] = useState([])
 

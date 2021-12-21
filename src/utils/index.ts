@@ -10,7 +10,7 @@ export const isFalsy = (value: unknown) => value === 0 ? false : !value
 // isFalsy(undefined)
 
 // 在一个函数里，改变一个传入的对象本身是不好的
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: {[key: string]: unknown}) => {
   // Object.assign({}, object)
   if (!object) {
     return {}
@@ -61,7 +61,7 @@ export const useMount = (callback: () => void) => {
 //              // 所以 log()#3 结束后，就剩 timeout#3在独自等待了（连续执行，最后都这会剩一个 timeout 最后一个 log() 等 5s 之后 才会执行）
 
 // ? 选传
-export const useDebounce = (value: unknown, delay?: number ): any => {
+export const useDebounce = <V>(value:V, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(value)
 
   useEffect(() => {

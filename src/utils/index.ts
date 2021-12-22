@@ -74,3 +74,19 @@ export const useDebounce = <V>(value:V, delay?: number) => {
 }
 
 // 理想的情况下：value 是什么类型，返回的就是什么类型  ----- 泛型来规范类型
+
+// initialArray 的类型是 T 的数组，也就是说 T 就代表里边每一项的类型（TS 中的数组每一项类型都是一样）
+export const useArray = <T>(initialArray: T[]) => {
+  const [value, setValue] = useState(initialArray)
+  return {
+    value,
+    setValue,
+    add: (item: T) => setValue([...value, item]),
+    clear: () => setValue([]),
+    removeIndex: (index: number) => {
+      const copy = [...value]
+      copy.splice(index, 1)  // 去 index 的地方删除一个项目
+      setValue(copy)
+    } 
+  }
+}

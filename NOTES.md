@@ -300,3 +300,11 @@ package.json 中
 改为：
 "json-server": "json-server **json_server_mock**/db.json --watch --port 3001 --middleware ./**json_server_mock**/middleware.js"
 ```
+
+开发者工具 [**jira-dev-tool**](https://www.npmjs.com/package/jira-dev-tool
+)：npx imooc-jira-tool（利用 [`MSW`](https://github.com/mswjs/msw
+) 以 [`Service Worker`](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API
+)：本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器
+）为原理实现了“分布式后端”
+
+*注*：保证工作区没有尚未提交的文件

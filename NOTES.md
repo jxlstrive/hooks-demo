@@ -283,3 +283,20 @@ window.onscroll = throttle(showTop, 1000);
 _`运行结果`_：如果一直拖着滚动条进行滚动，那么会以 1s 的时间间隔，持续输出当前位置和顶部的距离
 
 \* ~~注~~：节流函数也可以完全不借助 *setTimeout*，可以把状态位换成时间戳，然后利用时间戳差值是否大于指定时间来做判定。也可以直接将 setTimeout 的返回的标记当做判断条件-判断当前定时器是否存在，如果存在表示还在冷却，并且在执行 fn 之后消除定时器表示激活\*
+
+
+*注*：默认的 json-server 只能模拟标准的 restful 的 api
+#### 给 json-server 配置 middleware（利用 json-server 模拟自定义的 api）
+
+添加 middleware.js 用来模拟自定义的 api
+注：nodejs 应该使用 CommonJS 的规范
+
+登录认证/注册 使用 JWT 的技术
+
+将 middleware 注入到 json-server 中：
+```jsx
+package.json 中
+"json-server": "json-server **json_server_mock**/db.json --watch --port 3001"
+改为：
+"json-server": "json-server **json_server_mock**/db.json --watch --port 3001 --middleware ./**json_server_mock**/middleware.js"
+```

@@ -19,7 +19,7 @@
     "antd": "^4.9.4",
     "dayjs": "^1.9.7",
     "history": "5",
-    "jira-dev-tool": "1.6.59",
+    "jira-dev-tool": "^1.7.61",
     "qs": "^6.9.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -31,8 +31,7 @@
     "start": "set PORT=9001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "json-server": "json-server __json_server_mock__/db.json --watch --port 3001 --middleware ./__json_server_mock__/middleware.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

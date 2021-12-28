@@ -6,6 +6,7 @@ export interface User {
   email: string;
   title: string;
   organization: string;
+  token: string
 }
 
 // 希望对函数每一个形参都要规定类型

@@ -301,7 +301,7 @@ package.json 中
 "json-server": "json-server **json_server_mock**/db.json --watch --port 3001 --middleware ./**json_server_mock**/middleware.js"
 ```
 
-开发者工具 [**jira-dev-tool**](https://www.npmjs.com/package/jira-dev-tool
+*<u>开发者工具</u>* [**jira-dev-tool**](https://www.npmjs.com/package/jira-dev-tool
 )：npx imooc-jira-tool（利用 [`MSW`](https://github.com/mswjs/msw
 ) 以 [`Service Worker`](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API
 )：本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器
@@ -312,3 +312,8 @@ package.json 中
 运行命令后 public 文件夹中添加了 mockServiceWorker.js 文件（启动分布式服务必须的文件）
 
 引入并使用 jira-dev-tool 后，删除 json-server 相关的文件
+
+
+`如遇错误：Detected outdated Service Worker: Currently active Service Worker is behind the latest published one. 请运行：npx msw init public`
+
+### **JWT（JSON Web Tokens） 原理与 auth-provider 实现**

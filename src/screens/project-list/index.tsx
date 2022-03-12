@@ -32,15 +32,21 @@ export const ProjectListScreen = () => {
 
   useEffect(() => {
     // fetch 返回一个 promise；then 里边是一个异步函数
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async (response: Response) => {
       if (response.ok) {
         setList(await response.json())
       }
+      // else {
+      //   // 当服务端返回 401/500 或者其他失败状态时，会触发错误
+      //   alert('error happen in response')
+      // }
     })
+    // 当服务端返回 401/500 或者其他失败状态时，fetch api 都不会抛出异常，只有在断网/网络连接失败时，会抛出异常
+    // .catch(() => alert('error happen'))
   }, [debounceParam])
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async response => {
+    fetch(`${apiUrl}/users`).then(async (response: Response) => {
       if (response.ok) {
         setUsers(await response.json())
       }

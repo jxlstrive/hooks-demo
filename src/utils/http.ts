@@ -1,5 +1,7 @@
 import qs from 'qs'
+
 import * as auth from 'auth-provider'
+import { useAuth } from 'context/auth-context';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -8,7 +10,8 @@ interface Config extends RequestInit {
   data?:object
 }
 
-export const http = async (endpoint: string, {data, token, headers, ...customConfig}:Config) => {
+// customConfig 应作为可选参数存在，{data, token, headers, ...customConfig}?:Config，前面解构，后面再加 ? 是不被允许的，但是可以给参数加默认值 {}，自动变为可选
+export const http = async (endpoint: string, {data, token, headers, ...customConfig}: Config = {}) => {
   const config = {
     method: 'GET',
     headers: {
@@ -41,4 +44,13 @@ export const http = async (endpoint: string, {data, token, headers, ...customCon
       return Promise.reject(data)
     }
   } )
+}
+
+// 如果你的函数里要使用其他的 hook 的话，那么你的函数本身就必须是一个 hook
+export const useHttp = () => {
+  const { user } = useAuth()
+  // TODO 讲解 TS 操作符
+  // ...[endpoint, config]  这样的写法可以将 tuple 中的两项解放出来，这样在使用的时候，传参方式就不必按照 [] 的形式
+  return (...[endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token })
+  // return ([endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
 }

@@ -1,10 +1,29 @@
 import React, { ReactNode, useState } from 'react'
+
+import { useMount } from 'utils'
+import { http } from 'utils/http'
 import * as auth from 'auth-provider'
 import { User } from 'screens/project-list/search-panel'
 
 interface AuthForm {
   username: string,
   password: string
+}
+
+/**
+ * 需要在页面刷新的时候，能够初始化 user（原因：登录成功，页面刷新之后，变为未登录之前的页面）
+ * 取自 localStorage 中的 token，从而获取 user 的信息，找到之后再将其赋值给 setUser
+ * 
+ * @return {*} 
+ */
+const bootstrapUser = async () => {
+  let user = null
+  const token = auth.getToken()
+  if (token) {
+    const data = await http('me', { token })
+    user = data.user
+  }
+  return user
 }
 
 const AuthContext = React.createContext<{
@@ -22,6 +41,11 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   const login = (form: AuthForm) =>  auth.login(form).then(setUser)
   const register = (form: AuthForm) => auth.register(form).then(user => setUser(user))
   const logout = () => auth.logout().then(() => setUser(null))
+
+  // 当整个 auth Provider 加载，也就是说整个 app 加载的时候，使用 useMount，调用 bootstrapUser
+  useMount(() => {
+    bootstrapUser().then(setUser)
+  })
 
   return <AuthContext.Provider children={children} value={{ user, login, register, logout }} />
 }

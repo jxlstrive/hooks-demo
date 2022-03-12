@@ -45,12 +45,15 @@ export const http = async (endpoint: string, {data, token, headers, ...customCon
     }
   } )
 }
+// JS 中的 typeof：return typeof 1 = 'number' 是在 runtime 时运行的
+// TS 中的 typeof：是在静态环境运行的，是用来操作类型的（typeof 并不会参与运行，因为 ts 最终是要被编译成 js 的，而被编译成的 js 是不包含任何的类型信息的）
+// TS 中的 typeof 作用：是用来在其后边传一个变量，将变量的类型提取出来
 
 // 如果你的函数里要使用其他的 hook 的话，那么你的函数本身就必须是一个 hook
 export const useHttp = () => {
   const { user } = useAuth()
-  // TODO 讲解 TS 操作符
+  // TS 中的 Utility Types：充当工具类型（用法：用泛型给它传入一个其他类型，然后 Utility type 对这个类型进行某种操作）
+  return ([endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
   // ...[endpoint, config]  这样的写法可以将 tuple 中的两项解放出来，这样在使用的时候，传参方式就不必按照 [] 的形式
-  return (...[endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token })
-  // return ([endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+  // return (...[endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token })
 }

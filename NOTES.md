@@ -343,3 +343,46 @@ package.json 中
 在一个典型的 React 应用中，数据是通过 props 属性自上而下（由父及子）进行传递的，但这种做法对于某些类型的属性而言是极其繁琐的（例如：地区偏好、UI 主题），这些属性是应用程序中许多组件都需要的。Context 提供了一种组件之间共享此类值的方式，而不必显示地通过组件树的逐层传递 props
 
 API： React.createContext   Context.Provider   Class.contextType  Context.Consumer  Context.displayName
+
+### TS 的联合类型、Partial和 Omit
+
+> JS 中的 typeof：return typeof 1 = 'number' 是在 runtime 时运行的
+> TS 中的 typeof：是在静态环境运行的，是用来操作类型的（typeof 并不会参与运行，因为 ts 最终是要被编译成 js 的，而被编译成的 js 是不包含任何的类型信息的）
+> TS 中的 typeof 作用：是用来在其后边传一个变量，将变量的类型提取出来
+
+> TS 中的 Utility Types：充当工具类型（用法：用泛型给它传入一个其他类型，然后 Utility type 对这个类型进行某种操作）**示例：http.ts 文件**
+`return ([endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }) `
+
+```js
+// 联合类型
+let myFavoriteNumber:string | number
+myFavoriteNumber = 'seven'
+myFavoriteNumber = 7
+// Type '{}' is not assignable to type 'string | number'
+// myFavoriteNumber = {}
+let jackFavoriteNumber: string | number
+
+// 类型别名在很多情况下可以和 interface 互换
+// interface Person {
+//   name: string
+// }
+// type Person = { name: string }
+// const xiaoMing: Person = { name: 'xiaoming' }
+
+// type 和 interface 使用区别：联合类型、交叉类型（type FavoriteNumber = string & number）
+// 类型别名。interface 在联合类型这种情况下没法替代 type
+type FavoriteNumber = string | number
+let roseFavoriteNumber: FavoriteNumber = '6'
+
+// interface 也没法实现 Utility type
+type Person = {
+  name: string,
+  age: number
+}
+
+// Partial 允许不传入任何属性：{}/{age: 8}/{name: 'xiaoming'}
+const xiaoMing:Partial<Person> = { age: 8 }
+// 例：只有年龄，没有名字 Omit 需要传入两个类型，第一个是要编辑的基本类型，第二个是要删除的属性名
+const shenMinRen: Omit<Person, 'name'> = {age: 8} 
+const shenMinRens: Omit<Person, 'name' | 'age'> = {} 
+```

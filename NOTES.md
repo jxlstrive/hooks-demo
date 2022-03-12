@@ -289,6 +289,24 @@ _`运行结果`_：如果一直拖着滚动条进行滚动，那么会以 1s 的
 #### 给 json-server 配置 middleware（利用 json-server 模拟自定义的 api）
 
 添加 middleware.js 用来模拟自定义的 api
+
+```js
+module.exports = (req, res, next) => {
+  if (req.method === 'POST' && req.path === '/login') {
+    if (req.body.username === 'jack' && req.body.password === '123456') {
+      return res.status(200).json({
+        user: {
+          token: '123'
+        }
+      })
+    } else {
+      return res.status(400).json({ message: '用户名或者密码错误' })
+    }
+  }
+  next()
+}
+```
+
 注：nodejs 应该使用 CommonJS 的规范
 
 登录认证/注册 使用 JWT 的技术
@@ -317,3 +335,11 @@ package.json 中
 `如遇错误：Detected outdated Service Worker: Currently active Service Worker is behind the latest published one. 请运行：npx msw init public`
 
 ### **JWT（JSON Web Tokens） 原理与 auth-provider 实现**
+
+### Context
+
+提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法。
+
+在一个典型的 React 应用中，数据是通过 props 属性自上而下（由父及子）进行传递的，但这种做法对于某些类型的属性而言是极其繁琐的（例如：地区偏好、UI 主题），这些属性是应用程序中许多组件都需要的。Context 提供了一种组件之间共享此类值的方式，而不必显示地通过组件树的逐层传递 props
+
+API： React.createContext   Context.Provider   Class.contextType  Context.Consumer  Context.displayName

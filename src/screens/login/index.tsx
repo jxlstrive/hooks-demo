@@ -1,5 +1,6 @@
 import React, { FormEvent } from 'react'
 import * as qs from 'qs'
+import { useAuth } from 'context/auth-context'
 
 // interface Base {
 //   id: number;
@@ -26,24 +27,26 @@ import * as qs from 'qs'
 // // 假设删掉类型声明，a 和 Advance 有一样的接口（接口一样，类型不一样，在 JAVA 中是有问题的，但在 TS 中是可以的）
 // // test 函数不在乎 传入的参数类型是 Base 还是 Advance，只要符合接口中有一个类型为 number 的 id 就行（即：duck typing）
 // const a:Advance = {id: 1, name: 'jack'}
+// const a = {id: 1, name: 'jack'}
 // test(a)
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const LoginScreen = () => {
+  const { login, user } = useAuth()
 
-  const login = (param: {username: string, password:string}) => {
-    fetch(`${apiUrl}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(param)
-    }).then(async response => {
-      if (response.ok) {
-      }
-    })
-  }
+  // const login = (param: {username: string, password:string}) => {
+  //   fetch(`${apiUrl}/login`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(param)
+  //   }).then(async response => {
+  //     if (response.ok) {
+  //     }
+  //   })
+  // }
 
   // 涉及到类似这种回调函数不确定它的类型时：看一下它的函数签名
   // FormEvent 类型：interface FromEvent<T = Element> extends SyntheticEvents<T> {}
@@ -62,10 +65,15 @@ export const LoginScreen = () => {
   }
 
   return <form onSubmit={handleSubmit}>
+    {
+      user ? <div>登录成功，用户名：{user?.name}；token: {user?.token}</div> : null
+    }
     <div>
       <label htmlFor='username'>用户名</label>
       <input type="text" id={'username'} />
     </div>
+    {/* <div children={<><label htmlFor='username'>用户名</label>
+      <input type="text" id={'username'} /></>} /> */}
     <div>
       <label htmlFor='password'>密码</label>
       <input type="password" id={'password'} />

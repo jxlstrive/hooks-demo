@@ -344,7 +344,7 @@ package.json 中
 
 API： React.createContext   Context.Provider   Class.contextType  Context.Consumer  Context.displayName
 
-### TS 的联合类型、Partial和 Omit
+### TS 的联合类型、Partial和 Omit（TS 类型约束的越紧，出错的概率就越低）
 
 > JS 中的 typeof：return typeof 1 = 'number' 是在 runtime 时运行的
 > TS 中的 typeof：是在静态环境运行的，是用来操作类型的（typeof 并不会参与运行，因为 ts 最终是要被编译成 js 的，而被编译成的 js 是不包含任何的类型信息的）
@@ -384,5 +384,24 @@ type Person = {
 const xiaoMing:Partial<Person> = { age: 8 }
 // 例：只有年龄，没有名字 Omit 需要传入两个类型，第一个是要编辑的基本类型，第二个是要删除的属性名
 const shenMinRen: Omit<Person, 'name'> = {age: 8} 
-const shenMinRens: Omit<Person, 'name' | 'age'> = {} 
+const shenMinRens: Omit<Person, 'name' | 'age'> = {}
+
+
+type PersonKeys = keyof Person
+type PersonOnlyName = Pick<Person, 'name' | 'age'>
+// Omit 是操作键值对，而 Exclude 是操作联合类型（never 是什么都没有）
+type Age = Exclude<PersonKeys, 'name'>
+
+// Partial 的实现（in keyof 遍历键名集合，T[P] 键值）
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+}
+
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+};
+
+type Exclude<T, U> = T extends U ? never : T;
+
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 ```

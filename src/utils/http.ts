@@ -53,7 +53,7 @@ export const http = async (endpoint: string, {data, token, headers, ...customCon
 export const useHttp = () => {
   const { user } = useAuth()
   // TS 中的 Utility Types：充当工具类型（用法：用泛型给它传入一个其他类型，然后 Utility type 对这个类型进行某种操作）
-  return ([endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+  return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
   // ...[endpoint, config]  这样的写法可以将 tuple 中的两项解放出来，这样在使用的时候，传参方式就不必按照 [] 的形式
   // return (...[endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token })
 }

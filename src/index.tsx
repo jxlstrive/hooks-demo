@@ -6,7 +6,6 @@ import { AppProviders } from 'context';
 import { loadDevTools } from 'jira-dev-tool'
 import reportWebVitals from './reportWebVitals';
 
-import './index.css';
 import 'antd/dist/antd.less'
 
 loadDevTools(() => 

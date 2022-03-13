@@ -420,6 +420,7 @@ type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 ``` js
 import styled from '@emotion/styled'
 
+/** styled. 后面跟随的必须是 html 自带的元素 */
 export const Button = styled.button`
   color: turquoise;
 `
@@ -458,3 +459,7 @@ render(
   `
   <Title>颜色</Title>
   ```
+
+#### Emotion 的安装与使用
+_`yarn add @emotion/react @emotion/styled`_
+_` vscode 安装提示插件：vscode-styled-components `_

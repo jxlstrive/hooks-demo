@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
+    "@craco/craco": "^6.4.3",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
@@ -16,7 +17,8 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@welldone-software/why-did-you-render": "^6.0.5",
-    "antd": "^4.9.4",
+    "antd": "^4.19.1",
+    "craco-less": "^2.0.0",
     "dayjs": "^1.9.7",
     "history": "5",
     "jira-dev-tool": "^1.7.61",
@@ -28,9 +30,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "set PORT=9001 && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "set PORT=9001 && craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

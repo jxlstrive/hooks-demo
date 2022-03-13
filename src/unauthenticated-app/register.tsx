@@ -1,5 +1,8 @@
 import React, { FormEvent } from 'react'
+
 import * as qs from 'qs'
+import { Button, Form, Input } from 'antd'
+
 import { useAuth } from 'context/auth-context'
 
 // interface Base {
@@ -56,25 +59,26 @@ export const RegisterScreen = () => {
   // interface HTMLFormElement extends HTMLElement { }
   // interface HTMLElement extends Element
   // 总结：即 HTMLFormElement extends Element, Element 有的属性，HTMLFormElement 都有，HTMLFormElement 有的属性, Element 不一定有
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault() // 阻止表单提交的默认行为
-    // event.currentTarget.elements 浏览器自带的 form 标准（包含输入的 username 和 password 信息）
-    const username = (event.currentTarget.elements[0] as HTMLInputElement).value
-    const password = (event.currentTarget.elements[1] as HTMLInputElement).value
-    register({ username, password }) 
+  const handleSubmit = (values: { username: string, password: string }) => {
+    register(values) 
   }
 
-  return <form onSubmit={handleSubmit}>
-    <div>
-      <label htmlFor='username'>用户名</label>
-      <input type="text" id={'username'} />
-    </div>
-    {/* <div children={<><label htmlFor='username'>用户名</label>
-      <input type="text" id={'username'} /></>} /> */}
-    <div>
-      <label htmlFor='password'>密码</label>
-      <input type="password" id={'password'} />
-    </div>
-    <button type={'submit'}>注册</button>
-  </form>
+  return (
+    <Form onFinish={handleSubmit}>
+      {/* {
+        user ? <div>注册成功，用户名：{user?.name}；token: {user?.token}</div> : null
+      } */}
+      <Form.Item name={'username'} rules={[{ required: true, message: '请输入用户名' }]}>
+        <Input placeholder='用户名' type="text" id={'username'} />
+      </Form.Item>
+      {/* <div children={<><label htmlFor='username'>用户名</label>
+        <input type="text" id={'username'} /></>} /> */}
+      <Form.Item name={'password'} rules={[{ required: true, message: '请输入密码' }]}>
+        <Input placeholder='密码' type="password" id={'password'} />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType={'submit'} type={'primary'}>注册</Button>
+      </Form.Item>
+    </Form>
+  )
 }

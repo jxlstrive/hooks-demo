@@ -405,3 +405,10 @@ type Exclude<T, U> = T extends U ? never : T;
 
 type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 ```
+
+### CSS
+
+> - emotion：css in js 最受欢迎的库之一（用 js 的方式来写 css）
+> - Flexible Box/grid
+> - yarn add antd
+> - 实现 antd 自定义主题配置需要用到 craco（Create React App Configuration Override），用来覆盖创建项目的默认的配置 yarn add @craco/craco  yarn add craco-less

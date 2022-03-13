@@ -408,7 +408,53 @@ type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 
 ### CSS
 
-> - emotion：css in js 最受欢迎的库之一（用 js 的方式来写 css）
+> - emotion：css in js 最受欢迎的库之一（用 js 的方式来写 css，它还对 React 做了很好的适应，可以方便地创建 styled-component，也支持写行内样式）
 > - Flexible Box/grid
 > - yarn add antd
 > - 实现 antd 自定义主题配置需要用到 craco（Create React App Configuration Override），用来覆盖创建项目的默认的配置 yarn add @craco/craco  yarn add craco-less
+
+#### CSS-in-JS（不是指某一个具体的库，是指组织 CSS 代码的一种方式，代表库有 styled-component 和 emotion）
+
+* 传统 CSS 的缺陷 *
+1. 缺乏模块组织（传统的 JS 和 CSS 都没有模块的概念，后来在 JS 界陆续有了 CommonJS 和 ECMAScript Module，CSS in JS 可以用模块化的方式组织 CSS，依托于 JS 的模块化方案）例：
+``` js
+import styled from '@emotion/styled'
+
+export const Button = styled.button`
+  color: turquoise;
+`
+
+/** @jsx jsx emotion 支持行内样式，这种写法比起 React 自带的 style 的写法功能更强大，比如可以处理级联、伪类等 style 处理不了的情况  */
+import { jsx } from '@emotion/react'
+
+render(
+  <div
+    css={{
+      backgroundColor: 'hotpink',
+      '&:hover': {
+        color: 'lightgreen'
+      }
+    }}
+  >
+    This has a hotpink background
+  </div>
+)
+```
+2. 缺乏作用域（传统的 CSS 只有一个全局作用域，比如说一个 class 可以匹配全局的任意元素。随着项目成长，CSS 会变得越来越难以组织，最终导致失控。CSS-in-JS 可以通过生成独特的选择符，来实现作用域的效果。）
+3. 隐式依赖，让样式难以追踪
+4. 没有变量（传统的 CSS 规则里没有变量，但是在 CSS-in-JS 中可以方便地控制变量）例：
+   ``` js
+    const Container = styled.div(props => ({
+      display: 'flex',
+      flexDirection: props.column && 'column'
+    }))
+   ```
+5. CSS 选择器与 HTML 元素耦合
+
+* CSS-in-JS 简单直接、易于追踪（styled-component 将样式包裹起来，形成新的组件。在 React 代码中，直接将其当做一个普通的组件使用） *
+  ``` js
+  export const Title = styled.h1` 
+    color: green;
+  `
+  <Title>颜色</Title>
+  ```

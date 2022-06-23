@@ -426,6 +426,7 @@ export const Button = styled.button`
 `
 
 /** @jsx jsx emotion 支持行内样式，这种写法比起 React 自带的 style 的写法功能更强大，比如可以处理级联、伪类等 style 处理不了的情况  */
+/** @jsx jsx */
 import { jsx } from '@emotion/react'
 
 render(
@@ -462,4 +463,5 @@ render(
 
 #### Emotion 的安装与使用
 _`yarn add @emotion/react @emotion/styled`_
-_` vscode 安装提示插件：vscode-styled-components `_
+_` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示插件：Styled Components & Styled JSX`_
+

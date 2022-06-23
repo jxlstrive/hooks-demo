@@ -2,7 +2,7 @@ html {
   /* rem em */
   /* em 是相当于父元素的 font-size */
   /* rem 是相对于根元素 html 的 font-size, r 就是 root 的意思 */
-  /* 浏览器默认的像素是 16px，16 * 62.5% = 10px，即：1rem === 10px  */
+  /* 浏览器默认的 font-size 是 16px，16 * 62.5% = 10px，即：1rem === 10px  */
   font-size: 62.5%;
 }
 

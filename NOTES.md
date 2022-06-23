@@ -465,3 +465,5 @@ render(
 _`yarn add @emotion/react @emotion/styled`_
 _` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示插件：Styled Components & Styled JSX`_
 
+
+#### yarn add jira-dev-tool@next（更换 api）

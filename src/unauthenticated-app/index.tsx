@@ -1,32 +1,32 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
-import { Button, Card, Divider } from "antd"
+import { Button, Card, Divider } from "antd";
 
-import { LoginScreen } from "./login"
-import { RegisterScreen } from "./register"
-import logo from 'assets/logo.svg'
-import left from 'assets/left.svg'
-import right from 'assets/right.svg'
+import { LoginScreen } from "./login";
+import { RegisterScreen } from "./register";
+import logo from "assets/logo.svg";
+import left from "assets/left.svg";
+import right from "assets/right.svg";
 
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 export const UnauthenticatedApp = () => {
-  const [isRegister, setIsRegister] = useState(false)
+  const [isRegister, setIsRegister] = useState(false);
   return (
     <Container>
       <Header />
       <Background />
       <ShadowCard>
-        <Title>
-          {isRegister ? '请注册' : '请登录'}
-        </Title>
-        { isRegister ? <RegisterScreen /> : <LoginScreen /> }
+        <Title>{isRegister ? "请注册" : "请登录"}</Title>
+        {isRegister ? <RegisterScreen /> : <LoginScreen />}
         <Divider />
-        <a onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</a>
+        <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "已经有账号了？直接登录" : "没有账号？注册新账号"}
+        </Button>
       </ShadowCard>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -47,9 +47,10 @@ const Background = styled.div`
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
-  background-attachment: fixed;  // 决定了背景图片是否会随着页面的滑动而一起滑动
+  background-attachment: fixed; // 决定了背景图片是否会随着页面的滑动而一起滑动
   background-position: left bottom, right bottom;
-  background-size: calc(((100vw - 40rem) / 2) - 3.2rem), calc(((100vw - 40rem) / 2) - 3.2rem), cover;
+  background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
+    calc(((100vw - 40rem) / 2) - 3.2rem), cover;
   background-image: url(${left}), url(${right});
 `;
 
@@ -58,16 +59,16 @@ const ShadowCard = styled(Card)`
   min-height: 56rem;
   padding: 3.2rem 4rem;
   border-radius: 0.3rem;
-  box-sizing: border-box;  // 通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度
-  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  box-sizing: border-box; // 通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
   text-align: center;
 `;
 
 const Title = styled.h2`
   margin-bottom: 2.4rem;
   color: rgb(94, 108, 132);
-`
+`;
 
 export const LongButton = styled(Button)`
   width: 100%;
-`
+`;

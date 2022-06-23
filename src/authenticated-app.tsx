@@ -6,7 +6,7 @@ import { Row } from "components/lib";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 
 import styled from "@emotion/styled";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Button } from "antd";
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局，还是二维布局（一般来说，一维布局（只涉及到行）用 flex，二维布局（涉及到行和列）用 grid）
@@ -28,18 +28,21 @@ export const AuthenticatedApp = () => {
           {/* <HeaderItem as={'div'}>another</HeaderItem> */}
         </HeaderLeft>
         <HeaderRight>
-          {/* <button onClick={logout}>登出</button> */}
           <Dropdown
             overlay={
               <Menu>
                 <Menu.Item key={"logout"}>
-                  <a onClick={logout}>登出</a>
+                  <Button onClick={logout} type={"link"}>
+                    登出
+                  </Button>
                 </Menu.Item>
               </Menu>
             }
           >
             {/* e.preventDefault() 防止页面重新刷新 */}
-            <a onClick={(e) => e.preventDefault()}>Hi，{user?.name}</a>
+            <Button type={"link"} onClick={(e) => e.preventDefault()}>
+              Hi, {user?.name}
+            </Button>
           </Dropdown>
         </HeaderRight>
       </Header>

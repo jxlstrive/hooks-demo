@@ -38,6 +38,8 @@ export const ProjectListScreen = () => {
   useEffect(() => {
     // client(['projects', {data: cleanObject(debounceParam)}])
     client("projects", { data: cleanObject(debounceParam) }).then(setList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     // fetch 返回一个 promise；then 里边是一个异步函数
     // fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async (response: Response) => {
     //   if (response.ok) {

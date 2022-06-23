@@ -5,11 +5,29 @@ import { useEffect, useState } from "react"
 // 在 ts 中时 滥用 any 是有害的，谨慎使用 any 类型 
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
 
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
+
 // isFalsy(1)
 // isFalsy({})
 // isFalsy(undefined)
 
-// 在一个函数里，改变一个传入的对象本身是不好的
+
+/**
+ * let a: object
+ * a = {name: 'jack'}
+ * a = () => {}
+ * a = new RegExp('')
+ * 所以 object 类型的数据，它的覆盖范围很广，不只是这种纯对象，甚至还能包含函数，这种传统意义上我们认为不是键值对对象的类型
+ * 如果对函数进行解构操作：{...(() => {})}  这种情况没有意义
+ * 所以，得到的值就是一个空对象。const b = {...(() => {})}  ts 干脆返回一个空对象
+ */
+
+// 例：
+// let b: { [key: string]: unknown } // 可以限制住想要的键值对类型
+// b = {name: 'Jack'}
+// b = () => {}  // 报错
+
+// 在一个函数里，改变一个传入的对象本身是不好的 (object: object)
 export const cleanObject = (object: {[key: string]: unknown}) => {
   // Object.assign({}, object)
   if (!object) {
@@ -19,7 +37,7 @@ export const cleanObject = (object: {[key: string]: unknown}) => {
   Object.keys(result).forEach(key => {
     // @ts-ignore  错误涉及到 ts 泛型，暂不处理
     const value = result[key]
-    if (isFalsy(value)) {
+    if (isVoid(value)) {
       //@ts-ignore
       delete result[key]
     }
@@ -31,6 +49,8 @@ export const cleanObject = (object: {[key: string]: unknown}) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback()
+    // TODO 依赖项里加上 callback 会造成无限循环，这个和 useCallback 以及 useMemo 有关系
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
 

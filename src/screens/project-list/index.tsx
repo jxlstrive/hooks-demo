@@ -9,6 +9,7 @@ import { cleanObject, useDebounce, useMount } from "utils/index";
 
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
+import { Typography } from "antd";
 
 // 使用 JS，大部分的错误都是在 runtime（运行时） 的时候发现的
 // 希望在静态代码中，就能找到其中的一些错误 -> 强类型 typeScript
@@ -16,6 +17,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | Error>(null);
   const [param, setParam] = useState({
     name: "",
     personId: "",
@@ -36,8 +39,15 @@ export const ProjectListScreen = () => {
   // value.func
 
   useEffect(() => {
+    setIsLoading(true);
     // client(['projects', {data: cleanObject(debounceParam)}])
-    client("projects", { data: cleanObject(debounceParam) }).then(setList);
+    client("projects", { data: cleanObject(debounceParam) })
+      .then(setList)
+      .catch((error) => {
+        setList([]);
+        setError(error);
+      })
+      .finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // fetch 返回一个 promise；then 里边是一个异步函数
@@ -67,7 +77,10 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel users={users} param={param} setParam={setParam} />
-      <List users={users} list={list} />
+      {error ? (
+        <Typography.Text type="danger">{error.message}</Typography.Text>
+      ) : null}
+      <List loading={isLoading} users={users} dataSource={list} />
     </Container>
   );
 };

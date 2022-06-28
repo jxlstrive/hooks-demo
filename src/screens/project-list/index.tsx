@@ -10,23 +10,30 @@ import { cleanObject, useDebounce, useMount } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { Typography } from "antd";
+import { useAsync } from "utils/use-async";
+import { Project } from "screens/project-list/list";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
 
 // 使用 JS，大部分的错误都是在 runtime（运行时） 的时候发现的
 // 希望在静态代码中，就能找到其中的一些错误 -> 强类型 typeScript
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | Error>(null);
+  // const [users, setUsers] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<null | Error>(null);
   const [param, setParam] = useState({
     name: "",
     personId: "",
   });
   // 使用 泛型后 debounceParam 和 param 类型保持一致
   const debounceParam = useDebounce(param, 200);
-  const [list, setList] = useState([]);
-  const client = useHttp();
+  // const [list, setList] = useState([]);
+  // const client = useHttp();
+  // const { run, isLoading, error, data: list } = useAsync<Project[]>();
+  const { isLoading, error, data: list } = useProjects(debounceParam);
+  const { data: users } = useUsers();
 
   // 声明一个变量为 unknown 类型，可以给它赋任何值，但是不可以把 unknown 赋给任何值，也不能从 unknown 身上读取任何的方法
   // let value:unknown
@@ -39,17 +46,17 @@ export const ProjectListScreen = () => {
   // value.func
 
   useEffect(() => {
-    setIsLoading(true);
+    // run(client("projects", { data: cleanObject(debounceParam) }));
+    // setIsLoading(true);
     // client(['projects', {data: cleanObject(debounceParam)}])
-    client("projects", { data: cleanObject(debounceParam) })
-      .then(setList)
-      .catch((error) => {
-        setList([]);
-        setError(error);
-      })
-      .finally(() => setIsLoading(false));
+    // client("projects", { data: cleanObject(debounceParam) })
+    //   .then(setList)
+    //   .catch((error) => {
+    //     setList([]);
+    //     setError(error);
+    //   })
+    //   .finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
     // fetch 返回一个 promise；then 里边是一个异步函数
     // fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async (response: Response) => {
     //   if (response.ok) {
@@ -65,7 +72,7 @@ export const ProjectListScreen = () => {
   }, [debounceParam]);
 
   useMount(() => {
-    client("users").then(setUsers);
+    // client("users").then(setUsers);
     // fetch(`${apiUrl}/users`).then(async (response: Response) => {
     //   if (response.ok) {
     //     setUsers(await response.json())
@@ -76,11 +83,11 @@ export const ProjectListScreen = () => {
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel users={users} param={param} setParam={setParam} />
+      <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} users={users} dataSource={list} />
+      <List loading={isLoading} users={users || []} dataSource={list || []} />
     </Container>
   );
 };

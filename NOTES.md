@@ -467,3 +467,10 @@ _` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示
 
 
 #### yarn add jira-dev-tool@next（更换 api）
+
+#### 本地serve 启动静态服务
+ 1. npm run build
+ 2. yarn global add serve
+ 3. serve -s build（serve ./dist ； yarn serve ./dist   //dis目录是编译好的静态文件）
+
+#### 捕获错误边界库：[react-error-boundary]（https://github.com/bvaughn/react-error-boundary）

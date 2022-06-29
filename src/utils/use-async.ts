@@ -13,8 +13,14 @@ const defaultInitialState:State<null> = {
   error: null
 }
 
+const defaultConfig = {
+  throwOnError: false,
+};
+
+
 // initialState 是用户传入的 state > 自定义的 defaultInitialState
-export const useAsync = <D>(initialState?:State<D>) => {
+export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
+  const config = { ...defaultConfig, ...initialConfig }
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState
@@ -44,7 +50,8 @@ export const useAsync = <D>(initialState?:State<D>) => {
       })
       .catch(error => {
         setError(error)
-        return error
+        if (config.throwOnError) return Promise.reject(error)
+        return error // catch 会消化异常，如果不主动抛出，外面是接收不到异常的
       })
   }
 

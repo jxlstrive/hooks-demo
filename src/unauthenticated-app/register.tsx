@@ -1,10 +1,11 @@
-import React, { FormEvent } from 'react'
+import React, { FormEvent } from "react";
 
-import * as qs from 'qs'
-import { Form, Input } from 'antd'
+import * as qs from "qs";
+import { Form, Input } from "antd";
 
-import { useAuth } from 'context/auth-context'
-import { LongButton } from 'unauthenticated-app';
+import { useAuth } from "context/auth-context";
+import { LongButton } from "unauthenticated-app";
+import { useAsync } from "utils/use-async";
 
 // interface Base {
 //   id: number;
@@ -17,7 +18,7 @@ import { LongButton } from 'unauthenticated-app';
 
 // const p: Person = { name: '123', id: 123 }
 
-// 类型兼容  TS 或者 JS 是鸭子类型：面向接口编程 而不是 面向对象编程 
+// 类型兼容  TS 或者 JS 是鸭子类型：面向接口编程 而不是 面向对象编程
 // interface Base {
 //   id: number;
 // }
@@ -36,8 +37,13 @@ import { LongButton } from 'unauthenticated-app';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const RegisterScreen = () => {
-  const { register, user } = useAuth()
+export const RegisterScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
+  const { register, user } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
   // const register = (param: {username: string, password:string}) => {
   //   fetch(`${apiUrl}/register`, {
@@ -54,32 +60,57 @@ export const RegisterScreen = () => {
 
   // 涉及到类似这种回调函数不确定它的类型时：看一下它的函数签名
   // FormEvent 类型：interface FromEvent<T = Element> extends SyntheticEvents<T> {}
-  // extends 继承 SyntheticEvents 
+  // extends 继承 SyntheticEvents
   // 泛型不仅可以被用在函数中，还可以被用在 interface 中，在使用 FormEvent 时，需要指定 T 的类型
   // Element 是默认值，如果不指定 T 默认就是 Element 类型
   // interface HTMLFormElement extends HTMLElement { }
   // interface HTMLElement extends Element
   // 总结：即 HTMLFormElement extends Element, Element 有的属性，HTMLFormElement 都有，HTMLFormElement 有的属性, Element 不一定有
-  const handleSubmit = (values: { username: string, password: string }) => {
-    register(values) 
-  }
+  const handleSubmit = ({
+    cpassword, // cpassword 不参与服务器交互，所以单独拎出来
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
+    if (cpassword !== values.password) {
+      onError(new Error("请确认两次输入的密码相同"));
+      return;
+    }
+    run(register(values)).catch(onError);
+  };
 
   return (
     <Form onFinish={handleSubmit}>
       {/* {
         user ? <div>注册成功，用户名：{user?.name}；token: {user?.token}</div> : null
       } */}
-      <Form.Item name={'username'} rules={[{ required: true, message: '请输入用户名' }]}>
-        <Input placeholder='用户名' type="text" id={'username'} />
+      <Form.Item
+        name={"username"}
+        rules={[{ required: true, message: "请输入用户名" }]}
+      >
+        <Input placeholder="用户名" type="text" id={"username"} />
       </Form.Item>
       {/* <div children={<><label htmlFor='username'>用户名</label>
         <input type="text" id={'username'} /></>} /> */}
-      <Form.Item name={'password'} rules={[{ required: true, message: '请输入密码' }]}>
-        <Input placeholder='密码' type="password" id={'password'} />
+      <Form.Item
+        name={"password"}
+        rules={[{ required: true, message: "请输入密码" }]}
+      >
+        <Input placeholder="密码" type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "请确认密码" }]}
+      >
+        <Input placeholder="确认密码" type="password" id={"cpassword"} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={'submit'} type={'primary'}>注册</LongButton>
+        <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>
+          注册
+        </LongButton>
       </Form.Item>
     </Form>
-  )
-}
+  );
+};

@@ -114,6 +114,9 @@ export const useArray = <T>(initialArray: T[]) => {
 export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
   const oldTitle = document.title
 
+  // 页面加载时：oldTitle === 旧 title 'React App'
+  // 加载后：oldTitle === 新的 title
+
   useEffect(() => {
     document.title = title
   }, [title, oldTitle, keepOnUnmount])
@@ -121,6 +124,7 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
+        // 如果不指定依赖，读到的就是旧 title
         document.title = oldTitle
       }
     }

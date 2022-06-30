@@ -20,6 +20,7 @@ import { Project } from "screens/project-list/list";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { Helmet } from "react-helmet";
+import { Test } from "./test";
 
 // 使用 JS，大部分的错误都是在 runtime（运行时） 的时候发现的
 // 希望在静态代码中，就能找到其中的一些错误 -> 强类型 typeScript
@@ -90,6 +91,7 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
+      <Test />
       {/* <Helmet>
         <title>项目列表</title>
       </Helmet> */}

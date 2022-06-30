@@ -7,15 +7,22 @@ import { RegisterScreen } from "./register";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
+import { Helmet } from "react-helmet";
 
 import styled from "@emotion/styled";
+import { useDocumentTitle } from "utils";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  // useDocumentTitle("请登录注册以继续");
+
   return (
     <Container>
+      {/* <Helmet>
+        <title>请登录或注册以继续</title>
+      </Helmet> */}
       <Header />
       <Background />
       {/* 错误边界不会捕获事件的异常 */}

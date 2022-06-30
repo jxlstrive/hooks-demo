@@ -5,7 +5,12 @@ import styled from "@emotion/styled";
 import * as qs from "qs";
 
 import { useHttp } from "utils/http";
-import { cleanObject, useDebounce, useMount } from "utils/index";
+import {
+  cleanObject,
+  useDebounce,
+  useDocumentTitle,
+  useMount,
+} from "utils/index";
 
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
@@ -14,6 +19,7 @@ import { useAsync } from "utils/use-async";
 import { Project } from "screens/project-list/list";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
+import { Helmet } from "react-helmet";
 
 // 使用 JS，大部分的错误都是在 runtime（运行时） 的时候发现的
 // 希望在静态代码中，就能找到其中的一些错误 -> 强类型 typeScript
@@ -34,6 +40,8 @@ export const ProjectListScreen = () => {
   // const { run, isLoading, error, data: list } = useAsync<Project[]>();
   const { isLoading, error, data: list } = useProjects(debounceParam);
   const { data: users } = useUsers();
+
+  useDocumentTitle("项目列表", false);
 
   // 声明一个变量为 unknown 类型，可以给它赋任何值，但是不可以把 unknown 赋给任何值，也不能从 unknown 身上读取任何的方法
   // let value:unknown
@@ -82,6 +90,9 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
+      {/* <Helmet>
+        <title>项目列表</title>
+      </Helmet> */}
       <h1>项目列表</h1>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (

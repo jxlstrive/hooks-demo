@@ -474,3 +474,7 @@ _` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示
  3. serve -s build（serve ./dist ； yarn serve ./dist   //dis目录是编译好的静态文件）
 
 #### 捕获错误边界库：[react-error-boundary]（https://github.com/bvaughn/react-error-boundary）
+
+#### react-helmet （给 react 页面定义头部的配置 <meta> <title> <link> 改变文档标题）
+ 1. yarn add react-helmet
+ 2. yarn add -D @type/react-helmet

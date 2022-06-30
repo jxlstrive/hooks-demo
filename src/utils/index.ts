@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 // 假设 value 为 0 时
 // 如果没有给传入的参数做类型定义，ts 会默认给一个 any 类型。value: any，any 类型相当于在使用 js。
@@ -111,15 +111,24 @@ export const useArray = <T>(initialArray: T[]) => {
   }
 }
 
+/**
+ * @param title 
+ * @param keepOnUnmount
+ * 
+ * useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。
+ * 返回的 ref 对象在组件的整个生命周期内持续存在，持续不变。
+ * 使用 useRef 来帮助实现持久化变量
+ *  
+ */
 export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-  const oldTitle = document.title
+  const oldTitle = useRef(document.title).current
 
-  // 页面加载时：oldTitle === 旧 title 'React App'
-  // 加载后：oldTitle === 新的 title
+  // 页面加载时：旧 title
+  // 加载后：新 title
 
   useEffect(() => {
     document.title = title
-  }, [title, oldTitle, keepOnUnmount])
+  }, [title])
 
   useEffect(() => {
     return () => {
@@ -128,5 +137,5 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
         document.title = oldTitle
       }
     }
-  }, [])
+  }, [keepOnUnmount, oldTitle])
 }

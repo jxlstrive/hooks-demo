@@ -461,20 +461,55 @@ render(
   <Title>颜色</Title>
   ```
 
-#### Emotion 的安装与使用
+#### **Emotion 的安装与使用**
 _`yarn add @emotion/react @emotion/styled`_
 _` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示插件：Styled Components & Styled JSX`_
 
 
-#### yarn add jira-dev-tool@next（更换 api）
+#### **yarn add jira-dev-tool@next（更换 api）**
 
-#### 本地serve 启动静态服务
+#### **本地 serve 启动静态服务**
  1. npm run build
  2. yarn global add serve
  3. serve -s build（serve ./dist ； yarn serve ./dist   //dis目录是编译好的静态文件）
 
-#### 捕获错误边界库：[react-error-boundary]（https://github.com/bvaughn/react-error-boundary）
+#### **捕获错误边界库：** [react-error-boundary]（https://github.com/bvaughn/react-error-boundary）
 
-#### react-helmet （给 react 页面定义头部的配置 <meta> <title> <link> 改变文档标题）
+#### **react-helmet （给 react 页面定义头部的配置 <meta> <title> <link> 改变文档标题）**
  1. yarn add react-helmet
  2. yarn add -D @type/react-helmet
+
+#### **路由**
+  1. ** yarn add react-router@6 react-router-dom@6
+  2. yarn add history
+
+#### **Hook 使用原则**
+  1. 只能在 **函数最外层** 调用 hook。不要在循环、条件判断或者子函数中调用
+  2. 只能在 **React的函数组件** 中调用 hook。不要再其他 javascript 函数中调用。
+  注：（还有一个地方可以调用 hook ---- 就是自定义 hook 中。）
+
+#### **自定义 Hook**
+  >. 组件之前重用一些状态逻辑。两种主流方案来解决问题：高阶组件和 render props
+  > 每个组件间的 state 是完全独立的。Hook 是一种复用状态逻辑的方式，它不复用 state 本身。
+  > 事实上 Hook 的每次调用都有一个完全独立的 state ---- 因此你可以在单个组件中多次调用同一个自定义 Hook
+  > 可以创建涵盖各种场景的自定义 Hook， 如表单处理、动画、订阅声明、计时器，甚至可能还有更多没有想到的场景
+  > _注：_ useSomething 的命名约定可以让 linter 插件在使用 Hook 的代码中找到 bug。
+
+#### **其他 Hook**
+  > * useContext 可以不使用组件嵌套就可以订阅 React 的 Context
+
+``` js
+  function Example() {
+    const locale = useContext(LocaleContext)
+    const theme = useContenxt(ThemeContext)
+    // ...
+  }
+```
+  > * useReducer 可以通过 reducer 来管理组件本地的复杂 state
+
+``` js
+  function Todos() {
+    const [todos, dispatch] = useReducer(todosReducer)
+    // ...
+  }
+```

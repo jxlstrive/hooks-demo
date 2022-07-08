@@ -11,6 +11,7 @@ import { Dropdown, Menu, Button } from "antd";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
+import { resetRoute } from "utils";
 
 /**
  * grid 和 flex 各自的应用场景
@@ -20,6 +21,12 @@ import { ProjectScreen } from "screens/project";
  * 从布局出发：先规划网格（数量一般比较固定），然后再把元素往里填充
  * 从内容出发，用 flex，从布局出发，用 grid
  *
+ */
+
+/**
+ * react-router-dom 从 v5 升级到 v6，会有错误消息
+ * <Navigate to={"/projects"} />
+ * Error: [Navigate] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>
  */
 
 export const AuthenticatedApp = () => {
@@ -35,6 +42,8 @@ export const AuthenticatedApp = () => {
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
+            {/* <Route index element={<ProjectListScreen />} /> */}
+            <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
         </Router>
       </Main>
@@ -47,10 +56,12 @@ const PageHeader = () => {
   return (
     <Header between={true} marginBottom={1}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        <Button type="link" onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        </Button>
         <h2>项目</h2>
         <h2>用户</h2>
-        {/* <HeaderItem as={'div'}>another</HeaderItem> */}
+        {/* <HeaderItem  as={'div'}>another</HeaderItem> */}
       </HeaderLeft>
       <HeaderRight>
         <Dropdown

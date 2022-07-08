@@ -485,8 +485,25 @@ _` vscode 安装提示插件：vscode-styled-components； webStorm 安装提示
 
 #### **Hook 使用原则**
   1. 只能在 **函数最外层** 调用 hook。不要在循环、条件判断或者子函数中调用
-  2. 只能在 **React的函数组件** 中调用 hook。不要再其他 javascript 函数中调用。
-  注：（还有一个地方可以调用 hook ---- 就是自定义 hook 中。）
+  2. 只能在 **React的函数组件** 中调用 hook。不要在其他 javascript 函数中调用。
+  注：1.（还有一个地方可以调用 hook ---- 就是自定义 hook 中。）
+     2. 官方发布了一个名为 eslint-plugin-react-hooks 的 ESlint 插件来强制执行这两条规则。
+```js
+  npm install eslint-plugin-react-hooks --save-dev
+
+  // 你的 ESlint 配置
+  {
+    "plugins": [
+      // ...
+      "react-hooks"
+    ],
+    "rules": {
+      // ...
+      "react-hooks/rules-of-hooks": "error", // 检查 hook 的规则
+      "react-hooks/exhaustive-deps": "warn"  // 检查 effect 的依赖
+    }
+  }
+```
 
 #### **自定义 Hook**
   >. 组件之前重用一些状态逻辑。两种主流方案来解决问题：高阶组件和 render props
